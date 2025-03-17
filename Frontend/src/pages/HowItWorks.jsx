@@ -20,13 +20,13 @@ const HowItWorks = () => {
           icon: <FaGavel />,
           title: "Role Selection",
           description:
-            'Users can register as either a "Bidder" or "Auctioneer." Bidders can bid on items, while Auctioneers can post items.',
+            'Users must register and log in as either a "Bidder" or "Auctioneer." Bidders can bid on items, while Auctioneers can post items.',
         },
         {
           icon: <FaEnvelope />,
           title: "Winning Bid Notification",
           description:
-            "After winning an item, the highest bidder will receive an email with the Auctioneer's payment method information, including bank transfer, Razorpay, and PayPal.",
+            "After winning an item, the highest bidder will receive an email with the Auctioneer's payment method information, including bank transfer, UPI ID.",
         },
         {
           icon: <FaDollarSign />,
@@ -60,7 +60,7 @@ const HowItWorks = () => {
             return (
               <div
                 key={index}
-                className="bg-gradient-to-r from-[#2606f822] via-[#05e92822] to-[#eb101033] border-4 border-dashed border-slate-500 rounded-md p-2 lg:p-5 flex flex-col gap-2 group hover:bg-[#ce79ceaf] transition-all duration-300"
+                className="bg-gradient-to-r from-[#2606f822] via-[#05e92822] to-[#eb101033] border-4 border-dashed border-slate-500 rounded-md p-2 lg:p-5 flex flex-col gap-2 group hover:bg-[#c08ac0af] transition-all duration-300"
               >
                 <div className="bg-[#3958d3e5] text-white p-3 text-xl rounded-full w-fit group-hover:bg-[#d6482b] transition-all duration-300">
                   {element.icon}

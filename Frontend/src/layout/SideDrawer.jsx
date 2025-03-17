@@ -13,6 +13,7 @@ import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from '@/store/slices/userSlice';
 import { Link } from 'react-router-dom';
+import { IoIosMail } from "react-icons/io";
 
 const SideDrawer = () => {
     const [show,setShow] =useState(false);
@@ -100,14 +101,14 @@ const SideDrawer = () => {
               </li>
             )}
           </ul>
-          {!isAuthenticated ? (
+          {/* {!isAuthenticated ? (
             <>
               <div className="my-4 flex gap-2">
                 <Link
                   to={"/sign-up"}
                   className="bg-[#D6482B] font-semibold hover:bg-[#ec331e] text-xl py-1 px-4 rounded-md text-white hover:text-[#dcdad9]"
                 >
-                  Sign Up
+                  Register
                 </Link>
                 <Link
                   to={"/login"}
@@ -125,7 +126,35 @@ const SideDrawer = () => {
                 </button>
               </div>
             </>
-          )}
+          )} */}
+
+{!isAuthenticated ? (
+  <>
+    <div className="my-4 flex gap-2">
+      <Link
+        to={"/sign-up"}
+        className="bg-[#D6482B] font-semibold hover:bg-[#ec331e] text-xl py-1 px-4 rounded-md text-white hover:text-[#dcdad9]"
+      >
+        Register
+      </Link>
+      <Link
+        to={"/login"}
+        className="text-[#1d56d1] bg-transparent border-[#b75306] border-2 hover:bg-[#D6482B] hover:text-[#e0dddc] font-bold text-xl py-1 px-4 rounded-md"
+      >
+        Login
+      </Link>
+    </div>
+  </>
+) : (
+  <>
+    <div className="my-4 flex gap-4 w-fit" onClick={handleLogout}>
+      <button className="bg-[#D6482B] font-semibold hover:bg-[#b8381e] text-xl py-1 px-4 rounded-md text-white">
+        Logout
+      </button>
+    </div>
+  </>
+)}
+
           <hr className="mb-4 border-t-[#d6482b]" />
           <ul className="flex flex-col gap-3">
             {isAuthenticated && (
@@ -154,44 +183,21 @@ const SideDrawer = () => {
                 <BsFillInfoSquareFill /> About Us
               </Link>
             </li>
+            <li>
+              <Link
+                to={"/contact"}
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#ea6b22f8] hover:transition-all hover:duration-150"
+              >
+                <IoIosMail /> Contact Us
+              </Link>
+            </li>
+
             </ul>
             <IoMdCloseCircleOutline
             onClick={() => setShow(!show)}
             className="absolute top-0 right-4 text-[28px] sm:hidden"
           />
-          </div>
-          <div>
-          <div className="flex gap-2 items-center mb-2">
-            <Link
-              to="/"
-              className="bg-white text-stone-500 p-2 text-xl rounded-sm hover:text-blue-700"
-            >
-              <FaFacebook />
-            </Link>
-            <Link
-              to="/"
-              className="bg-white text-stone-500 p-2 text-xl rounded-sm hover:text-pink-500"
-            >
-              <RiInstagramFill />
-            </Link>
-          </div>
-          <Link
-            to={"/contact"}
-            className="text-stone-500 font-semibold hover:text-[#d6482b] hover:transition-all hover:duration-150"
-          >
-            Contact Us
-          </Link>
-          <p className="text-stone-500">&copy; BidMaster, LLC.</p>
-          <p className="text-stone-500">
-            Degined By{" "}
-            <Link
-              to={"/"}
-              className="font-semibold hover:text-[#d6482b] hover:transition-all hover:duration-150"
-            >
-              Batch-7
-            </Link>
-          </p>
-          </div>  
+          </div> 
         </div>
     </>
     );

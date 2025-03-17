@@ -45,7 +45,7 @@ const Home = () => {
                   className="bg-[#D6482B] font-semibold hover:bg-[#ec331e] text-xl py-1 px-4 rounded-md text-white hover:text-[#dcdad9]"
 
                 >
-                  Sign Up
+                  Register
                 </Link>
                 <Link
                   to={"/login"}

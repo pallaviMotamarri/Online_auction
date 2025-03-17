@@ -36,17 +36,13 @@ const userSchema = new mongoose.Schema({
             bankAccountNumber: String,
             bankAccountName:String,
             bankName: String,
-        },
-        razorpay:{
-            razorpayAccountNumber: Number,
-        },
-        paypal:{
-            paypalEmail:String,
+            UPIID:String,
         },
     },
     role:{
         type:String,
         enum:["Auctioneer", "Bidder","Super Admin"],
+        default:"Bidder",
     },
     unpaidCommission:{
         type:Number,
@@ -78,6 +74,14 @@ userSchema.pre("save",async function(next) {
 userSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword,this.password);
 };
+
+
+userSchema.methods.generateJwtToken = function () {
+  return jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+
 
 userSchema.methods.generateJsonwebToken =function(){
     return jwt.sign({id:this._id},process.env.JWT_SECRET_KEY,{

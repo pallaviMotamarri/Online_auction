@@ -17,7 +17,6 @@ export const addNewAuctionItem = catchAsyncErrors(async (req, res, next) => {
   if (!allowedFormats.includes(image.mimetype)) {
     return next(new ErrorHandler("File format not supported.", 400));
   }
-
   const {
     title,
     description,
@@ -58,7 +57,7 @@ export const addNewAuctionItem = catchAsyncErrors(async (req, res, next) => {
     createdBy: req.user._id,
     endTime: { $gt: Date.now() },
   });
-  if (alreadyOneAuctionActive.length > 0) {
+  if (alreadyOneAuctionActive) {
     return next(new ErrorHandler("You already have one active auction.", 400));
   }
   try {

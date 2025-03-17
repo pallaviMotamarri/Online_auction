@@ -9,19 +9,34 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("null");
   const [password, setPassword] = useState("");
   const [bankAccountName, setBankAccountName] = useState("");
   const [bankAccountNumber, setBankAccountNumber] = useState("");
   const [bankName, setBankName] = useState("");
-  const [razorpayAccountNumber, setRazorpayAccountNumber] = useState("");
-  const [paypalEmail, setPaypalEmail] = useState("");
+  const [UPI_ID,setUpiid]=useState("");
   const [profileImage, setProfileImage] = useState("");
   const [profileImagePreview, setProfileImagePreview] = useState("");
 
   const { loading, isAuthenticated } = useSelector((state) => state.user);
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
+
+  // const handleRegister = (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("userName", userName);
+  //   formData.append("email", email);
+  //   formData.append("phone", phone);
+  //   formData.append("password", password);
+  //   formData.append("address", address);
+  //   formData.append("profileImage", profileImage);
+  //   formData.append("bankAccountName", bankAccountName),
+  //   formData.append("bankAccountNumber", bankAccountNumber),
+  //   formData.append("bankName", bankName),
+  //   formData.append("UPI_ID",UPI_ID),
+  //   dispatch(register(formData));
+  // };
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -31,16 +46,20 @@ const SignUp = () => {
     formData.append("phone", phone);
     formData.append("password", password);
     formData.append("address", address);
-    formData.append("role", role);
     formData.append("profileImage", profileImage);
-    role === "Auctioneer" &&
-      (formData.append("bankAccountName", bankAccountName),
-      formData.append("bankAccountNumber", bankAccountNumber),
-      formData.append("bankName", bankName),
-      formData.append("razorpayAccountNumber", razorpayAccountNumber),
-      formData.append("paypalEmail", paypalEmail));
+    formData.append("bankAccountName", bankAccountName);
+    formData.append("bankAccountNumber", bankAccountNumber);
+    formData.append("bankName", bankName);
+    formData.append("UPI_ID", UPI_ID);
+  
+    // 🚀 Debugging: Log form data
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
+  
     dispatch(register(formData));
   };
+  
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -102,6 +121,7 @@ const SignUp = () => {
                   onChange={(e) => setPhone(e.target.value)}
                   className="text-[16px] py-2 bg-transparent border-b-[1px] border-b-stone-500 focus:outline-none"
                 />
+                
               </div>
               <div className="flex flex-col sm:flex-1">
                 <label className="text-[16px] text-stone-900">Address</label>
@@ -115,19 +135,16 @@ const SignUp = () => {
             </div>
             <div className="flex flex-col gap-4 sm:flex-row">
               <div className="flex flex-col sm:flex-1">
-                <label className="text-[16px] text-stone-900">Role</label>
-                <select
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
+                <label className="text-[16px] text-stone-900">Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="text-[16px] py-2 bg-transparent border-b-[1px] border-b-stone-500 focus:outline-none"
-                >
-                  <option value="">Select Role</option>
-                  <option value="Auctioneer">Auctioneer</option>
-                  <option value="Bidder">Bidder</option>
-                </select>
+                />
               </div>
               <div className="flex flex-col sm:flex-1">
-                <label className="text-[16px] text-stone-900">Password</label>
+                <label className="text-[16px] text-stone-900">Confirm Password</label>
                 <input
                   type="password"
                   value={password}
@@ -148,7 +165,7 @@ const SignUp = () => {
                       : "/imageHolder.jpg"
                   }
                   alt="profileImagePreview"
-                  className="w-14 h-14 rounded-full"
+                  className="w-12 h-12 rounded-full"
                 />
                 <input type="file" onChange={imageHandler} />
               </div>
@@ -157,10 +174,7 @@ const SignUp = () => {
             <div className="flex flex-col gap-4">
               <label className="font-semibold text-xl md:2xl flex flex-col">
                 Payment Method Details{" "}
-                <span className="text-[12px] text-stone-600">
-                  Fill Payment Details Only If you are registering as an
-                  Auctioneer
-                </span>
+                
               </label>
               <div className="flex flex-col gap-2">
                 <label className="text-[16px] font-semibold text-stone-900">
@@ -171,7 +185,6 @@ const SignUp = () => {
                     value={bankName}
                     onChange={(e) => setBankName(e.target.value)}
                     className="text-[16px] py-2 bg-transparent border-b-[1px] border-b-stone-500 focus:outline-none sm:flex-1"
-                    disabled={role === "Bidder"}
                   >
                     <option value="">Select Your Bank</option>
                     <option value="HDFC">HDFC</option>
@@ -185,7 +198,6 @@ const SignUp = () => {
                     placeholder="IFSC"
                     onChange={(e) => setBankAccountNumber(e.target.value)}
                     className="text-[16px] py-2 bg-transparent border-b-[1px] border-b-stone-500 focus:outline-none sm:flex-1"
-                    disabled={role === "Bidder"}
                   />
                   <input
                     type="text"
@@ -193,30 +205,20 @@ const SignUp = () => {
                     placeholder="Bank Account UserName"
                     onChange={(e) => setBankAccountName(e.target.value)}
                     className="text-[16px] py-2 bg-transparent border-b-[1px] border-b-stone-500 focus:outline-none sm:flex-1"
-                    disabled={role === "Bidder"}
                   />
                 </div>
               </div>
               <div>
                 <label className="text-[16px] text-stone-600 font-semibold">
-                  Razorpay And Paypal Details
+                  UPI ID
                 </label>
                 <div className="flex flex-col gap-1 sm:flex-row sm:gap-4">
                   <input
-                    type="number"
-                    value={razorpayAccountNumber}
-                    placeholder="Razorpay Account Number"
-                    onChange={(e) => setRazorpayAccountNumber(e.target.value)}
+                    type="string"
+                    value={UPI_ID}
+                    placeholder="Your UPI ID"
+                    onChange={(e) => setUpiid(e.target.value)}
                     className="text-[16px] py-2 bg-transparent border-b-[1px] border-b-stone-500 focus:outline-none sm:flex-1"
-                    disabled={role === "Bidder"}
-                  />
-                  <input
-                    type="email"
-                    value={paypalEmail}
-                    placeholder="Paypal Email"
-                    onChange={(e) => setPaypalEmail(e.target.value)}
-                    className="text-[16px] py-2 bg-transparent border-b-[1px] border-b-stone-500 focus:outline-none sm:flex-1"
-                    disabled={role === "Bidder"}
                   />
                 </div>
               </div>
